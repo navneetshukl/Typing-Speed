@@ -1,0 +1,7 @@
+/* global.css */
+body {
+  background-color: #fff; /* Set background color to white */
+  margin: 0; /* Reset default margin */
+  padding: 0; /* Reset default padding */
+  height: 100vh;
+}
