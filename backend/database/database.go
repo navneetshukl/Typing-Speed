@@ -54,3 +54,14 @@ func (p *PostgreSQLHandler) InsertToUser(user models.User) error {
 	}
 	return nil
 }
+
+func (p *PostgreSQLHandler) GetUserByEmail(email string) (models.User, error) {
+
+	var user models.User
+	p.db.Where("email=?", email).First(&user)
+
+	if user.ID == 0 {
+		return user, fmt.Errorf("email does not exist")
+	}
+	return user, nil
+}
