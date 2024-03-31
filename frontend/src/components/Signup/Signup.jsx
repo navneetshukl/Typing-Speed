@@ -1,73 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    return (
-      <div>
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-half">
-              <h1 className="title is-3 has-text-centered">Register</h1>
-              <div className="box">
-                <form>
-                  <div className="field">
-                    <label className="label">Name</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        placeholder="Enter your name"
-                        name="name"
-                        required
-                      />
-                    </div>
-                  </div>
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-                  <div className="field">
-                    <label className="label">Email</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="email"
-                        placeholder="Enter your email"
-                        name="email"
-                        required
-                      />
-                    </div>
-                  </div>
+  const formSubmit = async (event) => {
+    event.preventDefault();
 
-                  <div className="field">
-                    <label className="label">Password</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="password"
-                        placeholder="Enter your password"
-                        name="password"
-                        required
-                      />
-                    </div>
-                  </div>
+    const response = await fetch("http://localhost:8080/user/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-                  <div className="field is-grouped is-grouped-centered">
-                    <div className="control">
-                      <button className="button is-primary" type="submit">
-                        Submit
-                      </button>
-                    </div>
-                    <div className="control">
-                      <button className="button is-link is-light" type="reset">
-                        Reset
-                      </button>
-                    </div>
-                  </div>
-                </form>
+    console.log(await response.json());
+
+    if (response.ok) {
+      // Redirect to login
+      navigate("/");
+    }
+
+    setEmail("");
+    setName("");
+    setPassword("");
+  };
+
+  return (
+    <div className="container">
+      <h1 className="title is-size-3 has-text-centered mt-5">Register</h1>
+      <div className="columns is-centered mt-5">
+        <div className="column is-half">
+          <form onSubmit={formSubmit}>
+            <div className="field">
+              <label className="label">Name</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Enter your name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  required
+                />
               </div>
             </div>
-          </div>
+
+            <div className="field">
+              <label className="label">Email</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="Enter your email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Password</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="Enter your password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="field">
+              <div className="control">
+                <button className="button is-primary" type="submit">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Signup;

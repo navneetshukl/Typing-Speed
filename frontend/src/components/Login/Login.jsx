@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -42,7 +43,15 @@ const Login = () => {
             </div>
           </form>
           <div className="field " style={{ margin: "30px" }}>
-            <p>Not registered? Register</p>
+            <p>
+              Not registered?{" "}
+              <Link
+                to="/api/register"
+                className="button is-danger is-text is-default is-responsive is-rounded is-link is-focused "
+              >
+                Register
+              </Link>
+            </p>
           </div>
         </div>
       </div>
