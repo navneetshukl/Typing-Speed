@@ -11,6 +11,7 @@ import {
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Contrib from "./components/Contrib/Contrib";
+import Easy from "./components/Easy/Easy";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,7 +24,7 @@ function App() {
       element: <Signup />,
     },
     {
-      path: "/user/home",
+      path: "/home",
       element: (
         <>
           <Navbar />
@@ -36,7 +37,7 @@ function App() {
       element: (
         <>
           <Navbar />
-          <Contrib />
+          <Easy />
         </>
       ),
     },
