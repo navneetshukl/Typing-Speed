@@ -33,7 +33,7 @@ function App() {
       ),
     },
     {
-      path: "/user/contrib",
+      path: "/easy/:level",
       element: (
         <>
           <Navbar />
