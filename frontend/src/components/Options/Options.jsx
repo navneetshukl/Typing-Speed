@@ -16,13 +16,13 @@ const Options = (props) => {
               {" "}
               1 Minute
             </Link>
-            <Link to={`/${str}/3`} className="button is-fullwidth is-warning">
+            <Link to={`/${str}/2`} className="button is-fullwidth is-warning">
+              {" "}
+              2 Minute
+            </Link>
+            <Link to={`/${str}/3`} className="button is-fullwidth is-danger">
               {" "}
               3 Minute
-            </Link>
-            <Link to={`/${str}/5`} className="button is-fullwidth is-danger">
-              {" "}
-              5 Minute
             </Link>
           </div>
         </div>

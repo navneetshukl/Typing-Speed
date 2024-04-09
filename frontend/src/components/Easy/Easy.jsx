@@ -33,7 +33,7 @@ const Easy = () => {
     const len = str.length;
     let ans = "";
     let c = 0;
-    while (ans.length < 500) {
+    while (ans.length < 400) {
       const randomNumber = Math.floor(Math.random() * len);
       ans += str[randomNumber];
     }
@@ -50,6 +50,7 @@ const Easy = () => {
   // input function will match the input which is given by user with the generated string
   const input = (e) => {
     const str = e.target.value;
+    setInputchar(str);
     let currentchar = str.charAt(index);
     let originalchar = string.charAt(index);
     if (currentchar === originalchar) {
@@ -62,6 +63,34 @@ const Easy = () => {
     if (e.key === "Backspace" || e.key === "Delete") {
       e.preventDefault();
     }
+  };
+
+  const applyColor = () => {
+    const arr = string.split("");
+    let color = "black";
+    if (inputchar.length === 0) {
+      return string;
+    }
+    const coloured = arr.map((char, i) => {
+      if (i >= index) {
+        color = "black";
+      } else if (char === inputchar.charAt(i)) {
+        color = "green";
+      } else {
+        color = "red";
+      }
+      return (
+        <span key={i} style={{ color }}>
+          {char}
+        </span>
+      );
+    });
+
+    return coloured;
+  };
+
+  const senPostRequest = async (correct, wrong, time, total) => {
+    const request=await fetch("http://localhost:8080/")
   };
 
   return (
@@ -88,22 +117,27 @@ const Easy = () => {
             borderWidth: "5px",
             padding: "10px",
           }}
-          className="is-size-5"
+          className="title is-size-5"
         >
-          {string}
+          {applyColor()}
         </div>
         <textarea
-          className="input is-large title is-size-4"
+          className="input is-large title is-size-5"
           style={{
             width: "150vh",
-            height: "40vh",
-            marginTop: "20px",
+            height: "30vh",
+            marginTop: "3px",
           }}
           onChange={input}
           onKeyDown={handleKeyDown}
         />
         <div>
-          <p className="title">Total correct character is : {correct}</p>
+          <p className="has-text-weight-bold is-size-5">
+            Total correct character is : {correct}
+          </p>
+          <p className="has-text-weight-bold is-size-5">
+            Total wrong character is : {index - correct}
+          </p>
         </div>
       </div>
     </div>
