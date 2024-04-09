@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/navneetshukl/Typing-Speed/auth"
 	"github.com/navneetshukl/Typing-Speed/database"
+	"github.com/navneetshukl/Typing-Speed/middleware"
+	"github.com/navneetshukl/Typing-Speed/routes"
 )
 
 func init() {
@@ -12,6 +14,7 @@ func init() {
 	dbHandler.MigrateDatabase()
 
 	auth.DBHandler = dbHandler
+	routes.DBHandler = dbHandler
 
 }
 func main() {
@@ -24,6 +27,8 @@ func main() {
 	router.POST("/user/signup", auth.SignUp)
 	router.POST("/user/login", auth.Login)
 	router.GET("/user/logout", auth.Logout)
+
+	router.POST("/user/home",middleware.Authenticate ,routes.GetDetailFromFrontend)
 
 	router.Run()
 }

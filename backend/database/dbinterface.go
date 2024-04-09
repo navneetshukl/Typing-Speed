@@ -12,5 +12,6 @@ type DBHandler interface {
 	ConnectToDatabase() (*gorm.DB, error)
 	MigrateDatabase()
 	InsertToUser(name, email, password string) error
-	GetUserByEmail(email string)(models.User,error)
+	GetUserByEmail(email string) (models.User, error)
+	InsertIntoDetails(data models.Details) error
 }

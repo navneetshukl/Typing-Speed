@@ -9,10 +9,10 @@ const Easy = () => {
   const [index, setIndex] = useState(0);
   const [inputchar, setInputchar] = useState("");
   const [correct, setCorrect] = useState(0);
+  const [postRequestSent, setPostRequestSent] = useState(false);
 
   const decreaseTime = () => {
     setTime((prevTime) => {
-      // Check if time is already 0, if yes, do not decrease further
       if (prevTime <= 0) {
         return prevTime;
       } else {
@@ -89,9 +89,37 @@ const Easy = () => {
     return coloured;
   };
 
-  const senPostRequest = async (correct, wrong, time, total) => {
-    const request=await fetch("http://localhost:8080/")
+  const sendPostRequest = async (correct, wrong, time, total, level) => {
+    const request = await fetch("http://localhost:8080/user/home", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ correct, wrong, time, total, level }),
+      credentials: "include",
+    });
+
+    const response = await request.json();
+    console.log(response);
+    return;
   };
+
+  useEffect(() => {
+    if (time <= 0 && !postRequestSent) {
+      // Check if time is less than or equal to 0 and post request has not been sent
+      sendPostRequest(
+        correct,
+        index - correct,
+        60 * level - time,
+        inputchar.length,
+        1
+      ); // Call the post request function
+      setPostRequestSent(true); // Update state to indicate that post request has been sent
+    }
+  }, [time, correct, index, inputchar, 1, postRequestSent]);
+
+  let readOnly = false;
+  if (time <= 0 || index >= string.length) {
+    readOnly = true;
+  }
 
   return (
     <div>
@@ -130,6 +158,7 @@ const Easy = () => {
           }}
           onChange={input}
           onKeyDown={handleKeyDown}
+          readOnly={readOnly}
         />
         <div>
           <p className="has-text-weight-bold is-size-5">

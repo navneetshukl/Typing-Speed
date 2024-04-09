@@ -43,7 +43,7 @@ func (p *PostgreSQLHandler) MigrateDatabase() {
 		return
 	}
 
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.User{}, &models.Details{})
 }
 
 func (p *PostgreSQLHandler) InsertToUser(user models.User) error {
@@ -64,4 +64,13 @@ func (p *PostgreSQLHandler) GetUserByEmail(email string) (models.User, error) {
 		return user, fmt.Errorf("email does not exist")
 	}
 	return user, nil
+}
+
+func (p *PostgreSQLHandler) InsertIntoDetails(data models.Details) error {
+
+	result := p.db.Create(&data)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
