@@ -12,6 +12,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Contrib from "./components/Contrib/Contrib";
 import Easy from "./components/Easy/Easy";
+import Medium from "./components/Medium/Medium";
+import Hard from "./components/Hard/Hard";
 
 function App() {
   const router = createBrowserRouter([
@@ -38,6 +40,24 @@ function App() {
         <>
           <Navbar />
           <Easy />
+        </>
+      ),
+    },
+    {
+      path: "/medium/:level",
+      element: (
+        <>
+          <Navbar />
+          <Medium />
+        </>
+      ),
+    },
+    {
+      path: "/hard/:level",
+      element: (
+        <>
+          <Navbar />
+          <Hard />
         </>
       ),
     },

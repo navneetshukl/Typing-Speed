@@ -23,4 +23,5 @@ type Details struct {
 	Time         int    `json:"time" gorm:"not null"`
 	Total_Length int    `json:"total" gorm:"not null"`
 	Level        int    `json:"level" gorm:"not null"`
+	Type         string `json:"type" gorm:"not null"`
 }

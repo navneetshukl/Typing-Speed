@@ -11,6 +11,8 @@ const Easy = () => {
   const [correct, setCorrect] = useState(0);
   const [postRequestSent, setPostRequestSent] = useState(false);
 
+  const levelInt = parseInt(level);
+
   const decreaseTime = () => {
     setTime((prevTime) => {
       if (prevTime <= 0) {
@@ -29,11 +31,18 @@ const Easy = () => {
 
   // Function to generate random string
   const generate = () => {
-    const str = "ABCDEFGHIJKLMNOPQRTSUVWXYZabcdefghijklmnopqrstuvwxyz.";
+    const str = "abcdefghijklmnopqrstuvwxyz.";
     const len = str.length;
     let ans = "";
     let c = 0;
-    while (ans.length < 400) {
+    if (level == 1) {
+      c = 400;
+    } else if (level == 2) {
+      c = 700;
+    } else {
+      c = 1000;
+    }
+    while (ans.length < c) {
       const randomNumber = Math.floor(Math.random() * len);
       ans += str[randomNumber];
     }
@@ -89,11 +98,11 @@ const Easy = () => {
     return coloured;
   };
 
-  const sendPostRequest = async (correct, wrong, time, total, level) => {
+  const sendPostRequest = async (correct, wrong, time, total, level, type) => {
     const request = await fetch("http://localhost:8080/user/home", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ correct, wrong, time, total, level }),
+      body: JSON.stringify({ correct, wrong, time, total, level, type }),
       credentials: "include",
     });
 
@@ -110,11 +119,12 @@ const Easy = () => {
         index - correct,
         60 * level - time,
         inputchar.length,
-        1
-      ); // Call the post request function
+        levelInt,
+        "Easy"
+      );
       setPostRequestSent(true); // Update state to indicate that post request has been sent
     }
-  }, [time, correct, index, inputchar, 1, postRequestSent]);
+  }, [time, correct, index, inputchar, levelInt, postRequestSent, "Easy"]);
 
   let readOnly = false;
   if (time <= 0 || index >= string.length) {
